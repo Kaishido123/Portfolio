@@ -270,3 +270,14 @@ tr:hover {
 .comment-form button:hover {
   opacity: 0.9;
 }
+.comment-time {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.comment-name {
+  margin: 0 0 4px;
+  font-weight: 700;
+  color: var(--accent);
+}
