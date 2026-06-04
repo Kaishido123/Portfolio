@@ -11,38 +11,68 @@
   const nameInput = document.querySelector('#name');
   const commentInput = document.querySelector('#comment');
   const commentList = document.querySelector('#comment-list');
-
   const STORAGE_KEY = 'portfolio-comments';
 
-  function loadComments() {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  function getComments() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  }
+
+  function saveComments(comments) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+  }
+
+  function renderComments() {
+    const comments = getComments();
     commentList.innerHTML = '';
 
-    saved.forEach(({ name, text, time }) => {
+    comments.forEach((comment, index) => {
       const item = document.createElement('li');
       item.className = 'comment-item';
 
+      const header = document.createElement('div');
+      header.className = 'comment-header';
+
       const nameEl = document.createElement('p');
       nameEl.className = 'comment-name';
-      nameEl.textContent = name;
+      nameEl.textContent = comment.name;
 
       const timeEl = document.createElement('p');
       timeEl.className = 'comment-time';
-      timeEl.textContent = time;
+      timeEl.textContent = comment.time;
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'comment-delete';
+      deleteButton.textContent = '削除';
+      deleteButton.setAttribute('aria-label', `${comment.name} のコメントを削除`);
+
+      deleteButton.addEventListener('click', () => {
+        const updated = getComments().filter((_, i) => i !== index);
+        saveComments(updated);
+        renderComments();
+      });
+
+      header.appendChild(nameEl);
+      header.appendChild(timeEl);
+      header.appendChild(deleteButton);
 
       const textEl = document.createElement('p');
       textEl.className = 'comment-text';
-      textEl.textContent = text;
+      textEl.textContent = comment.text;
 
-      item.appendChild(nameEl);
-      item.appendChild(timeEl);
+      item.appendChild(header);
       item.appendChild(textEl);
       commentList.appendChild(item);
     });
   }
 
-  function saveComment(name, text) {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim() || '匿名';
+    const text = commentInput.value.trim();
+    if (!text) return;
+
     const now = new Date();
     const time = now.toLocaleString('ja-JP', {
       year: 'numeric',
@@ -52,26 +82,16 @@
       minute: '2-digit'
     });
 
-    saved.unshift({ name, text, time });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = nameInput.value.trim() || '匿名';
-    const text = commentInput.value.trim();
-
-    if (!text) return;
-
-    saveComment(name, text);
-    loadComments();
+    const comments = getComments();
+    comments.unshift({ name, text, time });
+    saveComments(comments);
 
     nameInput.value = '';
     commentInput.value = '';
+    renderComments();
   });
 
-  loadComments();
+  renderComments();
 </script>
  
 <body>
