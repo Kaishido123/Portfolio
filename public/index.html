@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shiranami Kaishido | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.comment-form');
+    const nameInput = document.querySelector('#name');
+    const commentInput = document.querySelector('#comment');
+    const commentList = document.querySelector('#comment-list');
+    const STORAGE_KEY = 'portfolio-comments';
+
+    if (!form || !nameInput || !commentInput || !commentList) {
+      console.error('comment elements not found');
+      return;
+    }
+
+    function getComments() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
+
+    function renderComments() {
+      const comments = getComments();
+      commentList.innerHTML = '';
+
+      comments.forEach((comment, index) => {
+        const item = document.createElement('li');
+        item.className = 'comment-item';
+
+        const header = document.createElement('div');
+        header.className = 'comment-header';
+
+        const nameEl = document.createElement('p');
+        nameEl.className = 'comment-name';
+        nameEl.textContent = comment.name;
+
+        const timeEl = document.createElement('p');
+        timeEl.className = 'comment-time';
+        timeEl.textContent = comment.time;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'comment-delete';
+        deleteButton.textContent = '削除';
+        deleteButton.setAttribute('aria-label', `${comment.name} のコメントを削除`);
+
+        deleteButton.addEventListener('click', () => {
+          const updated = getComments().filter((_, i) => i !== index);
+          saveComments(updated);
+          renderComments();
+        });
+
+        header.appendChild(nameEl);
+        header.appendChild(timeEl);
+        header.appendChild(deleteButton);
+
+        const textEl = document.createElement('p');
+        textEl.className = 'comment-text';
+        textEl.textContent = comment.text;
+
+        item.appendChild(header);
+        item.appendChild(textEl);
+        commentList.appendChild(item);
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim() || '匿名';
+      const text = commentInput.value.trim();
+
+      if (!text) return;
+
+      const now = new Date();
+      const time = now.toLocaleString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const comments = getComments();
+      comments.unshift({ name, text, time });
+      saveComments(comments);
+
+      nameInput.value = '';
+      commentInput.value = '';
+      renderComments();
+    });
+
+    renderComments();
+  });
+</script>
+ 
+<body>
+   <div> 
+     <main class="container">
+    <section class="hero card">
+      <p class="eyebrow">Portfolio</p>
+      <h2>Shiranami Kaishido</h2>
+    <img src="pixlr-image-generator-670d5e4129b7f9cb7aed550c.png" width=400 height=400>
+      <table>
+    <h2>About</h2>
+        </table>
+      <p class="lead">僕のことを知りたいってことだね。はい、どうぞ</p>
+      <table>
+           <h3>Profile</h3>
+    <ul>
+      <li>Kaishido</li> 
+      <li>広島県</li>
+      <li>今から得意分野を作る</li>
+    </ul>
+
+      </table>
+      <div class="table">
+        <a href="joshijimmy@icloud.com">Email</a>
+        <a href="https://github.com/kaishido123">GitHub</a>
+        <a href="https://www.linkedin.com/">LinkedIn</a>
+       <a href="https://youtube.com/@shiranamikaishido7445?si=uES846SIhQCXZDJa">Youtube<a/>
+
+    <section class="card">
+      <table>
+      <h2>About</h2>
+      <p>アニメとゲームが好きです。</p>
+        </table>
+    </section>
+
+    <section class="card">
+      <h2>Skills</h2>
+    <table>
+      <tr>
+        <th>OS</th>
+        <td>Windows,ios</td>
+      </tr>
+      <tr>
+        <th>Engine, Frameworks</th>
+        <td>Node.js</td>
+      </tr>
+      <tr>
+        <th>Tool, MiddleWare</th>
+        <td>Git</td>
+      </tr>
+      <tr>
+        <th>資格・免許</th>
+        <td>ITパスポート、介護福祉士</td>
+      </tr>
+    </table>
+    </section>
+           </ul>
+
+    <section class="card">
+ <h3>History</h3>
+    <p>学歴、職歴、アルバイト、インターン経験など。</p>
+    <table>
+      <tr>
+        <th>2021 年</th>
+        <td><a href="https://asuka-net.or.jp/">医療法人あすか</a> 入社</td>
+      </tr>
+      <tr>
+        <th>2021 年</th>
+        <td>平田学園 <a href="https://www.iwad.ac.jp/">IWAD専門学校</a> 卒業</td>
+      </tr>
+      <tr>
+        <th>20XX 年</th>
+        <td></td>
+      </tr>
+    </table>
+    </section>
+
+    <section class="card">
+      <h2>Projects</h2>
+      <li><a href="https://scratch.mit.edu/projects/722256353/">作品 1</a></li>
+      <iframe src="https://scratch.mit.edu/projects/1311409814/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
+     　<iframe src="https://scratch.mit.edu/projects/1321838482/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
+      <iframe src="https://scratch.mit.edu/projects/726336182/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
+     <li>Youtubeの作品</li>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/kj9aZIKEjAc?si=-oeTwBUg05JsRF_J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/a-xxZH4CPck?si=RK4zoRskAH6rTLbm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+      <p>これからだぞ！</p>
+    </section>
+   </table>
+         <table>
+    <h3>Openprocessing</h3>
+           </table>
+    <iframe src="https://openprocessing.org/sketch/2960191/embed/" width="400" height="400"></iframe>
+    <table>
+        <h3>好きな動画</h3>
+      </table>
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/gDCBA_6QkZY?si=FpMQUzH6mknsnDkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+         <table>
+           <section class="card">
+  <h2>Comment</h2>
+
+  <form class="comment-form" aria-label="コメントを残すフォーム">
+    <div class="form-group">
+      <label for="name">名前</label>
+      <input type="text" id="name" name="name" placeholder="お名前を入力">
+    </div>
+
+    <div class="form-group">
+      <label for="comment">コメント</label>
+      <textarea id="comment" name="comment" rows="5" placeholder="ひとことどうぞ"></textarea>
+    </div>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <div class="comment-list-wrap">
+    <h3>コメント一覧</h3>
+    <ul class="comment-list" id="comment-list">
+      <li class="comment-item">
+        <p class="comment-name">匿名</p>
+        <p class="comment-text">サイトを見に来ました！</p>
+      </li>
+      <li class="comment-item">
+        <p class="comment-name">Shi</p>
+        <p class="comment-text">ありがとう！</p>
+      </li>
+    </ul>
+  </div>
+</section>
+         </table>
+</body>
+</html>
