@@ -281,3 +281,26 @@ tr:hover {
   font-weight: 700;
   color: var(--accent);
 }
+.comment-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.comment-delete {
+  margin-left: auto;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.comment-delete:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
