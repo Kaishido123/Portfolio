@@ -6,6 +6,39 @@
   <title>Shiranami Kaishido | Portfolio</title>
   <link rel="stylesheet" href="portfolio.css">
 </head>
+  <script>
+  const form = document.querySelector('.comment-form');
+  const nameInput = document.querySelector('#name');
+  const commentInput = document.querySelector('#comment');
+  const commentList = document.querySelector('#comment-list');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim() || '匿名';
+    const text = commentInput.value.trim();
+
+    if (!text) return;
+
+    const item = document.createElement('li');
+    item.className = 'comment-item';
+
+    const nameEl = document.createElement('p');
+    nameEl.className = 'comment-name';
+    nameEl.textContent = name;
+
+    const textEl = document.createElement('p');
+    textEl.className = 'comment-text';
+    textEl.textContent = text;
+
+    item.appendChild(nameEl);
+    item.appendChild(textEl);
+    commentList.prepend(item);
+
+    nameInput.value = '';
+    commentInput.value = '';
+  });
+</script>
 <body>
    <div> 
      <main class="container">
@@ -119,6 +152,39 @@
 
     <button type="submit">送信</button>
   </form>
+</section>
+         </table>
+         <table>
+           <section class="card">
+  <h2>Comment</h2>
+
+  <form class="comment-form" aria-label="コメントを残すフォーム">
+    <div class="form-group">
+      <label for="name">名前</label>
+      <input type="text" id="name" name="name" placeholder="お名前を入力">
+    </div>
+
+    <div class="form-group">
+      <label for="comment">コメント</label>
+      <textarea id="comment" name="comment" rows="5" placeholder="ひとことどうぞ"></textarea>
+    </div>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <div class="comment-list-wrap">
+    <h3>コメント一覧</h3>
+    <ul class="comment-list" id="comment-list">
+      <li class="comment-item">
+        <p class="comment-name">匿名</p>
+        <p class="comment-text">サイトを見に来ました！</p>
+      </li>
+      <li class="comment-item">
+        <p class="comment-name">Shi</p>
+        <p class="comment-text">ありがとう！</p>
+      </li>
+    </ul>
+  </div>
 </section>
          </table>
 </body>
