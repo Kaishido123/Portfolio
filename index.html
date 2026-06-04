@@ -12,6 +12,73 @@
   const commentInput = document.querySelector('#comment');
   const commentList = document.querySelector('#comment-list');
 
+  const STORAGE_KEY = 'portfolio-comments';
+
+  function loadComments() {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    commentList.innerHTML = '';
+
+    saved.forEach(({ name, text, time }) => {
+      const item = document.createElement('li');
+      item.className = 'comment-item';
+
+      const nameEl = document.createElement('p');
+      nameEl.className = 'comment-name';
+      nameEl.textContent = name;
+
+      const timeEl = document.createElement('p');
+      timeEl.className = 'comment-time';
+      timeEl.textContent = time;
+
+      const textEl = document.createElement('p');
+      textEl.className = 'comment-text';
+      textEl.textContent = text;
+
+      item.appendChild(nameEl);
+      item.appendChild(timeEl);
+      item.appendChild(textEl);
+      commentList.appendChild(item);
+    });
+  }
+
+  function saveComment(name, text) {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const now = new Date();
+    const time = now.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    saved.unshift({ name, text, time });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim() || '匿名';
+    const text = commentInput.value.trim();
+
+    if (!text) return;
+
+    saveComment(name, text);
+    loadComments();
+
+    nameInput.value = '';
+    commentInput.value = '';
+  });
+
+  loadComments();
+</script>
+  <script>
+  const form = document.querySelector('.comment-form');
+  const nameInput = document.querySelector('#name');
+  const commentInput = document.querySelector('#comment');
+  const commentList = document.querySelector('#comment-list');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
