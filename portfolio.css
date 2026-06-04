@@ -190,3 +190,83 @@ tr:hover {
 .comment-form button:hover {
   opacity: 0.9;
 }
+.comment-list-wrap {
+  margin-top: 24px;
+}
+
+.comment-list-wrap h3 {
+  margin: 0 0 12px;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.comment-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  background: #fff;
+}
+
+.comment-name {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.comment-text {
+  margin: 0;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+.comment-form {
+  display: grid;
+  gap: 16px;
+}
+
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font: inherit;
+  background: #fff;
+  color: var(--text);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: 3px solid rgba(0, 160, 160, 0.2);
+  border-color: var(--accent);
+}
+
+.comment-form button {
+  width: fit-content;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  opacity: 0.9;
+}
