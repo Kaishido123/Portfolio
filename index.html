@@ -73,39 +73,7 @@
 
   loadComments();
 </script>
-  <script>
-  const form = document.querySelector('.comment-form');
-  const nameInput = document.querySelector('#name');
-  const commentInput = document.querySelector('#comment');
-  const commentList = document.querySelector('#comment-list');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = nameInput.value.trim() || '匿名';
-    const text = commentInput.value.trim();
-
-    if (!text) return;
-
-    const item = document.createElement('li');
-    item.className = 'comment-item';
-
-    const nameEl = document.createElement('p');
-    nameEl.className = 'comment-name';
-    nameEl.textContent = name;
-
-    const textEl = document.createElement('p');
-    textEl.className = 'comment-text';
-    textEl.textContent = text;
-
-    item.appendChild(nameEl);
-    item.appendChild(textEl);
-    commentList.prepend(item);
-
-    nameInput.value = '';
-    commentInput.value = '';
-  });
-</script>
+ 
 <body>
    <div> 
      <main class="container">
