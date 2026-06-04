@@ -7,91 +7,99 @@
   <link rel="stylesheet" href="portfolio.css">
 </head>
   <script>
-  const form = document.querySelector('.comment-form');
-  const nameInput = document.querySelector('#name');
-  const commentInput = document.querySelector('#comment');
-  const commentList = document.querySelector('#comment-list');
-  const STORAGE_KEY = 'portfolio-comments';
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.comment-form');
+    const nameInput = document.querySelector('#name');
+    const commentInput = document.querySelector('#comment');
+    const commentList = document.querySelector('#comment-list');
+    const STORAGE_KEY = 'portfolio-comments';
 
-  function getComments() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  }
+    if (!form || !nameInput || !commentInput || !commentList) {
+      console.error('comment elements not found');
+      return;
+    }
 
-  function saveComments(comments) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-  }
+    function getComments() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    }
 
-  function renderComments() {
-    const comments = getComments();
-    commentList.innerHTML = '';
+    function saveComments(comments) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
 
-    comments.forEach((comment, index) => {
-      const item = document.createElement('li');
-      item.className = 'comment-item';
+    function renderComments() {
+      const comments = getComments();
+      commentList.innerHTML = '';
 
-      const header = document.createElement('div');
-      header.className = 'comment-header';
+      comments.forEach((comment, index) => {
+        const item = document.createElement('li');
+        item.className = 'comment-item';
 
-      const nameEl = document.createElement('p');
-      nameEl.className = 'comment-name';
-      nameEl.textContent = comment.name;
+        const header = document.createElement('div');
+        header.className = 'comment-header';
 
-      const timeEl = document.createElement('p');
-      timeEl.className = 'comment-time';
-      timeEl.textContent = comment.time;
+        const nameEl = document.createElement('p');
+        nameEl.className = 'comment-name';
+        nameEl.textContent = comment.name;
 
-      const deleteButton = document.createElement('button');
-      deleteButton.type = 'button';
-      deleteButton.className = 'comment-delete';
-      deleteButton.textContent = '削除';
-      deleteButton.setAttribute('aria-label', `${comment.name} のコメントを削除`);
+        const timeEl = document.createElement('p');
+        timeEl.className = 'comment-time';
+        timeEl.textContent = comment.time;
 
-      deleteButton.addEventListener('click', () => {
-        const updated = getComments().filter((_, i) => i !== index);
-        saveComments(updated);
-        renderComments();
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'comment-delete';
+        deleteButton.textContent = '削除';
+        deleteButton.setAttribute('aria-label', `${comment.name} のコメントを削除`);
+
+        deleteButton.addEventListener('click', () => {
+          const updated = getComments().filter((_, i) => i !== index);
+          saveComments(updated);
+          renderComments();
+        });
+
+        header.appendChild(nameEl);
+        header.appendChild(timeEl);
+        header.appendChild(deleteButton);
+
+        const textEl = document.createElement('p');
+        textEl.className = 'comment-text';
+        textEl.textContent = comment.text;
+
+        item.appendChild(header);
+        item.appendChild(textEl);
+        commentList.appendChild(item);
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim() || '匿名';
+      const text = commentInput.value.trim();
+
+      if (!text) return;
+
+      const now = new Date();
+      const time = now.toLocaleString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
       });
 
-      header.appendChild(nameEl);
-      header.appendChild(timeEl);
-      header.appendChild(deleteButton);
+      const comments = getComments();
+      comments.unshift({ name, text, time });
+      saveComments(comments);
 
-      const textEl = document.createElement('p');
-      textEl.className = 'comment-text';
-      textEl.textContent = comment.text;
-
-      item.appendChild(header);
-      item.appendChild(textEl);
-      commentList.appendChild(item);
-    });
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = nameInput.value.trim() || '匿名';
-    const text = commentInput.value.trim();
-    if (!text) return;
-
-    const now = new Date();
-    const time = now.toLocaleString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
+      nameInput.value = '';
+      commentInput.value = '';
+      renderComments();
     });
 
-    const comments = getComments();
-    comments.unshift({ name, text, time });
-    saveComments(comments);
-
-    nameInput.value = '';
-    commentInput.value = '';
     renderComments();
   });
-
-  renderComments();
 </script>
  
 <body>
