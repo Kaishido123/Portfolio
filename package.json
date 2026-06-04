@@ -1,0 +1,12 @@
+{
+  "name": "node.js",
+  "version": "1.0.0",
+  "description": "portfolio comment app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
